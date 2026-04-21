@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deepak — UI/UX Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --ink: #000000;
+      --muted: #888888;
+      --line: rgba(0,0,0,0.07);
+      --font-sans: 'Inter', ui-sans-serif, sans-serif;
+      --font-display: 'Space Grotesk', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    ::selection { background: #000; color: #fff; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      z-index: 50;
+      display: flex;
+      justify-content: center;
+      padding: 28px;
+      opacity: 0;
+      transform: translateY(-40px);
+      animation: slideDown 0.8s cubic-bezier(0.22,1,0.36,1) 0.2s forwards;
+    }
+    .nav-pill {
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(0,0,0,0.05);
+      padding: 14px 36px;
+      border-radius: 999px;
+      display: flex;
+      gap: 36px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.05);
+    }
+    .nav-pill a {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      position: relative;
+      transition: color 0.2s;
+    }
+    .nav-pill a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 2px;
+      background: var(--ink);
+      transition: width 0.25s ease;
+    }
+    .nav-pill a:hover { color: var(--ink); }
+    .nav-pill a:hover::after { width: 100%; }
+
+    /* ── HERO ── */
+    #home {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 80px;
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+    .hero-grid {
+      max-width: 1280px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .hero-left { opacity: 0; transform: translateX(-50px); animation: slideRight 0.8s cubic-bezier(0.22,1,0.36,1) 0.4s forwards; }
+    .hero-center { opacity: 0; transform: scale(0.9); animation: scaleIn 1s cubic-bezier(0.22,1,0.36,1) 0.5s forwards; display: flex; justify-content: center; }
+    .hero-right { opacity: 0; transform: translateX(50px); animation: slideLeft 0.8s cubic-bezier(0.22,1,0.36,1) 0.6s forwards; display: flex; flex-direction: column; gap: 48px; }
+
+    .hero-greeting {
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(60px, 11vw, 140px);
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+    }
+    .portrait-wrap {
+      width: 100%;
+      max-width: 380px;
+      aspect-ratio: 3/4;
+      background: #f5f5f5;
+      border-radius: 40px;
+      overflow: hidden;
+      box-shadow: 0 50px 100px -20px rgba(0,0,0,0.15);
+      border: 8px solid white;
+      position: relative;
+    }
+    .portrait-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s ease;
+    }
+    .portrait-wrap:hover img { transform: scale(1.05); }
+
+    .hero-desc {
+      font-size: 18px;
+      color: #525252;
+      font-weight: 300;
+      line-height: 1.7;
+      max-width: 340px;
+    }
+    .hero-desc strong { color: var(--ink); font-weight: 500; }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      border: 2px solid var(--ink);
+      padding: 20px 48px;
+      border-radius: 999px;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      background: transparent;
+      color: var(--ink);
+      text-decoration: none;
+      transition: background 0.4s, color 0.4s, box-shadow 0.4s, transform 0.2s;
+    }
+    .btn-primary:hover {
+      background: var(--ink);
+      color: white;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    }
+    .btn-primary svg { transition: transform 0.3s; }
+    .btn-primary:hover svg { transform: translateX(8px); }
+
+    /* ── ABOUT ── */
+    #about {
+      padding: 128px 20px;
+      background: var(--ink);
+      color: white;
+    }
+    .about-inner {
+      max-width: 768px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(32px, 6vw, 64px);
+      letter-spacing: -0.04em;
+      margin-bottom: 48px;
+    }
+    .about-text p {
+      font-size: 18px;
+      color: #a3a3a3;
+      font-weight: 300;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+    .btn-outline-white {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 2px solid white;
+      padding: 14px 32px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      color: white;
+      text-decoration: none;
+      cursor: pointer;
+      background: transparent;
+      transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+      margin-top: 48px;
+    }
+    .btn-outline-white:hover {
+      background: white;
+      color: var(--ink);
+      box-shadow: 0 0 40px rgba(255,255,255,0.1);
+    }
+
+    .resume-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.resume-btn span {
+  transition: all 0.3s ease;
+}
+
+.text-download {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  opacity: 0;
+}
+
+.resume-btn:hover .text-view {
+  transform: translateY(-20px);
+  opacity: 0;
+}
+
+.resume-btn:hover .text-download {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+    /* Tools */
+    .tools-divider {
+      margin-top: 76px;
+      padding-top: 76px;
+      border-top: 1px solid rgba(255, 255, 255, 0.177);
+    }
+    .tools-label {
+      font-size: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.4em;
+      color: #525252;
+      margin-bottom: 12px;
+    }
+    .tools-heading {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 32px;
+      letter-spacing: -0.02em;
+      margin-bottom: 48px;
+    }
+    .tools-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 22px 42px;
+    }
+    .tool-chip {
+      display: flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+
+      cursor: pointer;
+      transition: background 0.3s, border-color 0.3s;
+      overflow: hidden;
+      position: relative;
+    }
+   
+    .tool-logo {
+      width: 28px; height: 28px;
+      object-fit: contain;
+      position: relative;
+      z-index: 1;
+      transition: transform 0.3s;
+    }
+    .tool-chip:hover .tool-logo { transform: rotate(12deg); }
+    .tool-name {
+      font-family: monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-weight: 700;
+      color: rgba(255,255,255,0.8);
+      max-width: 0;
+      opacity: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      transition: max-width 0.5s ease, opacity 0.4s ease, margin-left 0.5s ease;
+    }
+    .tool-chip:hover .tool-name {
+      max-width: 120px;
+      opacity: 1;
+      margin-left: 12px;
+    }
+
+    /* ── WORKS ── */
+    #works { padding: 80px 24px; }
+    .works-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      background: #f0fdfb;
+      border-radius: 60px;
+      padding: 80px;
+      display: flex;
+      align-items: center;
+      gap: 80px;
+    }
+    .works-left { flex: 1; }
+    .works-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(32px, 4vw, 48px);
+      letter-spacing: -0.04em;
+      margin-bottom: 16px;
+    }
+    .works-desc {
+      color: #a3a3a3;
+      font-size: 18px;
+      font-weight: 300;
+      max-width: 260px;
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+    .btn-border {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 32px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,0.2);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink);
+      background: transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.3s, color 0.3s;
+    }
+    .btn-border:hover { background: var(--ink); color: white; }
+    .btn-border:hover svg { transform: translateX(4px); }
+    .btn-border svg { transition: transform 0.3s; }
+
+    .works-right { flex: 1.5; width: 100%; }
+    .featured-card {
+      position: relative;
+      aspect-ratio: 1.8/1;
+      border-radius: 40px;
+      overflow: hidden;
+      box-shadow: 0 40px 80px -10px rgba(0,0,0,0.3);
+    }
+    .featured-card-bg {
+      position: absolute;
+      inset: 0;
+      background: url(assets/max.png)center/cover no-repeat;
+      opacity: 0.95;
+    }
+    .featured-card-content {
+      position: absolute;
+      inset: 0;
+      padding: 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .featured-card-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(28px, 3.5vw, 48px);
+      color: white;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      max-width: 480px;
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      padding: 128px 24px;
+      background: white;
+      text-align: center;
+    }
+    .contact-inner { max-width: 1280px; margin: 0 auto; }
+    .contact-label {
+      font-size: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.35em;
+      color: #a3a3a3;
+      margin-bottom: 48px;
+    }
+    .contact-cta {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(32px, 6vw, 72px);
+      letter-spacing: -0.04em;
+      color: var(--ink);
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 48px;
+      transition: font-style 0.3s;
+    }
+    .contact-cta:hover { font-style: italic; }
+
+    .socials {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 48px;
+    }
+    .social-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #a3a3a3;
+      text-decoration: none;
+      transition: color 0.3s, transform 0.3s;
+    }
+    .social-link:hover { color: var(--ink); transform: translateY(-4px); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 48px;
+      border-top: 1px solid var(--line);
+      text-align: center;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: #000000;
+    }
+
+    /* ── REVEAL ANIMATIONS ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes slideDown {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideRight {
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes slideLeft {
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes scaleIn {
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .hero-grid { grid-template-columns: 1fr; text-align: center; }
+      .hero-left, .hero-right { align-items: center; }
+      .hero-desc { margin: 0 auto; }
+      .hero-right { align-items: center; }
+      .works-inner { flex-direction: column; gap: 40px; padding: 48px 32px; }
+    }
+    @media (max-width: 640px) {
+      .nav-pill { gap: 20px; padding: 12px 24px; }
+      .works-inner { border-radius: 40px; padding: 32px 24px; }
+      .featured-card { aspect-ratio: 16/9; }
+      .featured-card-content { padding: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-pill">
+      <a href="#home" onclick="smoothScroll(event,'home')">Home</a>
+      <a href="#about" onclick="smoothScroll(event,'about')">About</a>
+      <a href="#works" onclick="smoothScroll(event,'works')">Works</a>
+      <a href="#contact" onclick="smoothScroll(event,'contact')">Contact</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="home">
+    <div class="hero-grid">
+      <!-- Left -->
+      <div class="hero-left">
+        <p class="hero-greeting">I'm Deepak</p>
+        <h1 class="hero-title">UI<br>UX</h1>
+      </div>
+
+      <!-- Center portrait -->
+      <div class="hero-center">
+        <div class="portrait-wrap">
+          <img src="assets/deepak.png" alt="Deepak" referrerpolicy="no-referrer" />
+        </div>
+      </div>
+
+      <!-- Right -->
+      <div class="hero-right">
+        <h1 class="hero-title">DESIGNER</h1>
+        <p class="hero-desc">
+          Crafting digital experiences that balance <strong>aesthetics</strong> and <strong>functionality</strong>.
+        </p>
+        <div>
+          <a href="#works" onclick="smoothScroll(event,'works')" class="btn-primary">
+            View my works
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-left clickable"></div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-inner reveal">
+      <h2 class="section-title">Who I am</h2>
+      <div class="about-text">
+        <p>I'm a passionate UI/UX Designer focused on creating simple, user-friendly, and visually appealing digital experiences.</p>
+        <p>As a fresher, I bring strong design thinking, creativity, and a deep understanding of user behavior. I enjoy solving real-world problems through research, wireframing, and prototyping.</p>
+        <p>I'm constantly learning and improving my skills in design tools and modern design trends to deliver impactful solutions.</p>
+      </div>
+     <a href="assets/resume.png" download class="btn-outline-white resume-btn">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+    <polyline points="14 2 14 8 20 8"/>
+  </svg>
+
+  <span class="text-view">View Resume</span>
+  <span class="text-download">Download Resume</span>
+</a>
+
+      <!-- Tools -->
+      <div class="tools-divider reveal">
+        <p class="tools-label">Behind the Scenes</p>
+        <h3 class="tools-heading">Tools I Use</h3>
+        <div class="tools-grid" id="toolsGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKS -->
+  <section id="works">
+    <div class="works-inner reveal">
+      <div class="works-left">
+        <h2 class="works-title">Recent Works</h2>
+        <p class="works-desc">MAX FASHION Click & Collect case study</p>
+        <a href="https://www.behance.net/gallery/247510921/Click-Collect-Case-Study" target="_blank" class="btn-border">
+  View Works
+</a>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+      <div class="works-right">
+        <div class="featured-card">
+          <div class="featured-card-bg"></div>
+          <div class="featured-card-content">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-inner reveal">
+      <p class="contact-label">Get in touch</p>
+      <a href="mailto:deepak@example.com" class="contact-cta">Let's work together</a>
+      <div class="socials">
+        <!-- LinkedIn -->
+        <a href="#" class="social-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
+          LinkedIn
+        </a>
+        <!-- Twitter / X -->
+        <a href="#" class="social-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          Twitter
+        </a>
+        <!-- Behance -->
+      <!-- Behance -->
+<a href="#" class="social-link">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M7.443 5.35c.639 0 1.23.05 1.77.198.541.099.984.297 1.377.544.394.247.689.594.886 1.039.197.396.296.891.296 1.435 0 .594-.148 1.089-.394 1.484-.246.395-.64.741-1.131 1.037.689.198 1.18.593 1.525 1.087.344.495.492 1.089.492 1.731 0 .643-.148 1.186-.394 1.633-.246.446-.591.842-1.033 1.088-.44.297-.934.495-1.476.642-.54.099-1.082.149-1.672.149H1V5.35h6.443zm-.394 4.99c.491 0 .885-.099 1.18-.346.295-.247.443-.594.443-1.088 0-.247-.05-.495-.148-.643a1.047 1.047 0 0 0-.394-.395 1.66 1.66 0 0 0-.541-.197 4.168 4.168 0 0 0-.689-.05H3.787v2.72h3.262zm.197 5.188c.246 0 .491-.025.737-.074.246-.05.442-.148.64-.247.196-.148.343-.297.442-.544.099-.198.197-.495.197-.792 0-.593-.197-1.038-.542-1.285-.394-.247-.885-.396-1.475-.396H3.787v3.338h3.459zM15.459 14.784c.394.396.984.594 1.771.594.541 0 1.033-.148 1.426-.396.394-.296.64-.594.739-.891h2.36c-.394 1.186-.984 2.027-1.82 2.572-.836.495-1.82.742-2.951.742-.787 0-1.525-.124-2.164-.396a4.326 4.326 0 0 1-1.623-1.087 5.12 5.12 0 0 1-1.033-1.682c-.246-.643-.344-1.385-.344-2.126 0-.742.098-1.435.344-2.077a5.34 5.34 0 0 1 1.033-1.683 4.762 4.762 0 0 1 1.623-1.136c.64-.272 1.377-.396 2.164-.396.886 0 1.672.173 2.312.544a4.717 4.717 0 0 1 1.574 1.434c.394.594.689 1.285.836 2.027.148.742.197 1.484.148 2.275h-7.034c.05.841.295 1.484.639 1.88v-.198zm3.1-5.04c-.344-.346-.886-.544-1.574-.544-.443 0-.836.099-1.131.247a2.497 2.497 0 0 0-.738.593 2.3 2.3 0 0 0-.394.742 4.48 4.48 0 0 0-.148.742h4.673c-.099-.742-.344-1.286-.688-1.78zM13.59 5.597h5.41v1.286h-5.41V5.597z"/>
+  </svg>
+  Behance
+</a>
+        <!-- Email -->
+        <a href="mailto:deepak@example.com" class="social-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          Email
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    &copy; 2026 Deepak &bull; UI/UX Designer &bull; Built with Passion
+  </footer>
+
+  <script>
+    // Smooth scroll
+    function smoothScroll(e, id) {
+      e.preventDefault();
+      const el = document.getElementById(id);
+      if (!el) return;
+      const offset = 100;
+      const top = el.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+
+    // Intersection observer for reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Tools data
+    const tools = [
+      { name: 'Figma',       color: '#F24E1E', logo: 'https://cdn.simpleicons.org/figma/F24E1E' },
+      { name: 'HTML',        color: '#E34F26', logo: 'https://cdn.worldvectorlogo.com/logos/html-1.svg' },
+      { name: 'CSS',         color: '#1572B6', logo: 'https://cdn.worldvectorlogo.com/logos/css-3.svg' },
+      { name: 'Adobe Photoshop',   color: '#31A8FF', logo: 'https://cdn.worldvectorlogo.com/logos/adobe-photoshop-2.svg' },
+     { name: ' Adobe Illustrator', color: '#FF9A00', logo: 'assets/adobe.jpg' },
+      { name: 'Framer',      color: '#0055FF', logo: 'https://cdn.simpleicons.org/framer/0055FF' },
+      { name: 'Javascript',  color: '#F7DF1E', logo: 'https://cdn.simpleicons.org/javascript/F7DF1E' },
+    ];
+
+    const grid = document.getElementById('toolsGrid');
+    tools.forEach(tool => {
+      grid.innerHTML += `
+        <div class="tool-chip">
+          <img src="${tool.logo}" alt="${tool.name}" class="tool-logo" referrerpolicy="no-referrer" />
+          <span class="tool-name">${tool.name}</span>
+        </div>
+      `;
+    });
+  </script>
+</body>
+</html>
